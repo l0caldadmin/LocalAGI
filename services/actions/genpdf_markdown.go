@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gomarkdown/markdown/ast"
 	"github.com/jung-kurt/gofpdf"
+	coreast "github.com/yuin/goldmark/ast"
+	gast "github.com/yuin/goldmark/extension/ast"
 )
 
 const (
@@ -14,19 +15,19 @@ const (
 )
 
 // renderMarkdownToPDF walks the markdown AST and renders it to the PDF using tr for all text.
-func renderMarkdownToPDF(pdf *gofpdf.Fpdf, tr func(string) string, doc ast.Node) {
-	for child := ast.GetFirstChild(doc); child != nil; child = ast.GetNextNode(child) {
-		renderBlock(pdf, tr, child)
+func renderMarkdownToPDF(pdf *gofpdf.Fpdf, tr func(string) string, doc coreast.Node, source []byte) {
+	for child := doc.FirstChild(); child != nil; child = child.NextSibling() {
+		renderBlock(pdf, tr, child, source)
 	}
 }
 
-func renderBlock(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node) {
+func renderBlock(pdf *gofpdf.Fpdf, tr func(string) string, node coreast.Node, source []byte) {
 	switch n := node.(type) {
-	case *ast.Document:
-		for child := ast.GetFirstChild(n); child != nil; child = ast.GetNextNode(child) {
-			renderBlock(pdf, tr, child)
+	case *coreast.Document:
+		for child := n.FirstChild(); child != nil; child = child.NextSibling() {
+			renderBlock(pdf, tr, child, source)
 		}
-	case *ast.Heading:
+	case *coreast.Heading:
 		level := n.Level
 		if level > 6 {
 			level = 6
@@ -36,22 +37,21 @@ func renderBlock(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node) {
 			size = 12
 		}
 		pdf.SetFont("Arial", "B", size)
-		writeInlineContent(pdf, tr, n)
+		writeInlineContent(pdf, tr, n, source)
 		pdf.Ln(pdfLineHeight + pdfBlockMargin)
 		pdf.SetFont("Arial", "", 12)
-	case *ast.Paragraph:
-		writeInlineContent(pdf, tr, n)
+	case *coreast.Paragraph:
+		writeInlineContent(pdf, tr, n, source)
 		pdf.Ln(pdfLineHeight + pdfBlockMargin)
-	case *ast.List:
-		listType := n.ListFlags
-		ordered := (listType & ast.ListTypeOrdered) != 0
+	case *coreast.List:
+		ordered := n.IsOrdered()
 		start := n.Start
 		if start <= 0 {
 			start = 1
 		}
 		itemNum := 0
-		for child := ast.GetFirstChild(n); child != nil; child = ast.GetNextNode(child) {
-			if item, ok := child.(*ast.ListItem); ok {
+		for child := n.FirstChild(); child != nil; child = child.NextSibling() {
+			if item, ok := child.(*coreast.ListItem); ok {
 				itemNum++
 				var bullet string
 				if ordered {
@@ -61,100 +61,72 @@ func renderBlock(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node) {
 				}
 				pdf.SetFont("Arial", "", 12)
 				pdf.CellFormat(8, pdfLineHeight, bullet, "", 0, "", false, 0, "")
-				for inner := ast.GetFirstChild(item); inner != nil; inner = ast.GetNextNode(inner) {
-					renderBlock(pdf, tr, inner)
+				for inner := item.FirstChild(); inner != nil; inner = inner.NextSibling() {
+					renderBlock(pdf, tr, inner, source)
 				}
 			}
 		}
 		pdf.Ln(pdfBlockMargin)
-	case *ast.ListItem:
-		for child := ast.GetFirstChild(n); child != nil; child = ast.GetNextNode(child) {
-			renderBlock(pdf, tr, child)
+	case *coreast.ListItem:
+		for child := n.FirstChild(); child != nil; child = child.NextSibling() {
+			renderBlock(pdf, tr, child, source)
 		}
-	case *ast.CodeBlock:
+	case *coreast.CodeBlock:
 		pdf.SetFont("Courier", "", 10)
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
+		lit := nodeLiteral(n, source)
 		if len(lit) > 0 {
 			pdf.MultiCell(0, pdfLineHeight-1, tr(string(lit)), "", "", false)
 		}
 		pdf.SetFont("Arial", "", 12)
 		pdf.Ln(pdfBlockMargin)
-	case *ast.BlockQuote:
+	case *coreast.Blockquote:
 		left, _, _, _ := pdf.GetMargins()
 		saveLeft := left
 		pdf.SetLeftMargin(saveLeft + 4)
 		pdf.SetX(saveLeft + 4)
-		for child := ast.GetFirstChild(n); child != nil; child = ast.GetNextNode(child) {
-			renderBlock(pdf, tr, child)
+		for child := n.FirstChild(); child != nil; child = child.NextSibling() {
+			renderBlock(pdf, tr, child, source)
 		}
 		pdf.SetLeftMargin(saveLeft)
 		pdf.Ln(pdfBlockMargin)
-	case *ast.HorizontalRule:
+	case *coreast.ThematicBreak:
 		pdf.Ln(pdfBlockMargin)
 		pdf.Line(pdf.GetX(), pdf.GetY(), pdf.GetX()+190, pdf.GetY())
 		pdf.Ln(pdfBlockMargin)
-	case *ast.Table:
-		renderTable(pdf, tr, n)
+	case *gast.Table:
+		renderTable(pdf, tr, n, source)
 		pdf.Ln(pdfBlockMargin)
-	case *ast.MathBlock:
-		pdf.SetFont("Courier", "", 10)
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
-		if len(lit) > 0 {
-			pdf.MultiCell(0, pdfLineHeight-1, tr(string(lit)), "", "", false)
-		}
-		pdf.SetFont("Arial", "", 12)
-		pdf.Ln(pdfBlockMargin)
-	case *ast.HTMLBlock:
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
+	case *coreast.RawHTML:
+		lit := nodeLiteral(n, source)
 		if len(lit) > 0 {
 			pdf.SetFont("Courier", "", 9)
 			pdf.MultiCell(0, pdfLineHeight-1, tr(string(lit)), "", "", false)
 			pdf.SetFont("Arial", "", 12)
 		}
 		pdf.Ln(pdfBlockMargin)
-	case *ast.Aside:
-		left, _, _, _ := pdf.GetMargins()
-		saveLeft := left
-		pdf.SetLeftMargin(saveLeft + 4)
-		pdf.SetX(saveLeft + 4)
-		for child := ast.GetFirstChild(n); child != nil; child = ast.GetNextNode(child) {
-			renderBlock(pdf, tr, child)
-		}
-		pdf.SetLeftMargin(saveLeft)
-		pdf.Ln(pdfBlockMargin)
 	default:
-		// Unknown block: try to render as inline content (e.g. paragraph-like)
-		if ast.GetFirstChild(node) != nil {
-			writeInlineContent(pdf, tr, node)
+		if node.FirstChild() != nil {
+			writeInlineContent(pdf, tr, node, source)
 			pdf.Ln(pdfLineHeight + pdfBlockMargin)
 		}
 	}
 }
 
 const (
-	pdfTableLineHt   = 7.0
-	pdfTableHeaderR  = 72
-	pdfTableHeaderG  = 72
-	pdfTableHeaderB  = 72
-	pdfTableBorderR  = 200
-	pdfTableBorderG  = 200
-	pdfTableBorderB  = 200
-	pdfTableStripR   = 248
-	pdfTableStripG   = 248
-	pdfTableStripB   = 248
+	pdfTableLineHt  = 7.0
+	pdfTableHeaderR = 72
+	pdfTableHeaderG = 72
+	pdfTableHeaderB = 72
+	pdfTableBorderR = 200
+	pdfTableBorderG = 200
+	pdfTableBorderB = 200
+	pdfTableStripR  = 248
+	pdfTableStripG  = 248
+	pdfTableStripB  = 248
 )
 
 // renderTable draws a markdown table. Table contains TableHeader and TableBody, each with TableRows of TableCells.
-func renderTable(pdf *gofpdf.Fpdf, tr func(string) string, table *ast.Table) {
+func renderTable(pdf *gofpdf.Fpdf, tr func(string) string, table *gast.Table, source []byte) {
 	left, _, right, _ := pdf.GetMargins()
 	pageW := 210.0
 	tblW := pageW - left - right
@@ -162,16 +134,16 @@ func renderTable(pdf *gofpdf.Fpdf, tr func(string) string, table *ast.Table) {
 	// Collect all rows: header rows first, then body (and footer if any)
 	var rows [][]string
 	var numCols int
-	for section := ast.GetFirstChild(table); section != nil; section = ast.GetNextNode(section) {
-		for rowNode := ast.GetFirstChild(section); rowNode != nil; rowNode = ast.GetNextNode(rowNode) {
-			row, ok := rowNode.(*ast.TableRow)
+	for section := table.FirstChild(); section != nil; section = section.NextSibling() {
+		for rowNode := section.FirstChild(); rowNode != nil; rowNode = rowNode.NextSibling() {
+			row, ok := rowNode.(*gast.TableRow)
 			if !ok {
 				continue
 			}
 			var cells []string
-			for c := ast.GetFirstChild(row); c != nil; c = ast.GetNextNode(c) {
-				if cell, ok := c.(*ast.TableCell); ok {
-					cells = append(cells, tr(getCellText(cell)))
+			for c := row.FirstChild(); c != nil; c = c.NextSibling() {
+				if cell, ok := c.(*gast.TableCell); ok {
+					cells = append(cells, tr(getCellText(cell, source)))
 				}
 			}
 			if len(cells) > 0 {
@@ -196,7 +168,7 @@ func renderTable(pdf *gofpdf.Fpdf, tr func(string) string, table *ast.Table) {
 
 	for i, row := range rows {
 		isHeader := i == 0
-		lastRow := i == len(rows) - 1
+		lastRow := i == len(rows)-1
 		// Header: dark gray background, white text, bold
 		if isHeader {
 			pdf.SetFont("Arial", "B", 12)
@@ -234,102 +206,78 @@ func renderTable(pdf *gofpdf.Fpdf, tr func(string) string, table *ast.Table) {
 }
 
 // getInlineText returns plain text from an inline container (e.g. Image alt text).
-func getInlineText(node ast.Node) string {
+func getInlineText(node coreast.Node, source []byte) string {
 	var b []byte
-	for child := ast.GetFirstChild(node); child != nil; child = ast.GetNextNode(child) {
-		if leaf, ok := child.(*ast.Leaf); ok && len(leaf.Literal) > 0 {
-			b = append(b, leaf.Literal...)
-		} else if text, ok := child.(*ast.Text); ok {
-			lit := text.Literal
-			if lit == nil {
-				lit = text.Content
-			}
-			if len(lit) > 0 {
-				b = append(b, lit...)
-			}
+	for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+		if lit := nodeLiteral(child, source); len(lit) > 0 {
+			b = append(b, lit...)
 		} else {
-			b = append(b, getInlineText(child)...)
+			b = append(b, getInlineText(child, source)...)
 		}
 	}
 	return string(b)
 }
 
-// getCellText returns plain text from a table cell (walks Paragraph/Text and Leaf nodes).
-func getCellText(node ast.Node) string {
+// getCellText returns plain text from a table cell (walks Paragraph/Text and leaf nodes).
+func getCellText(node coreast.Node, source []byte) string {
 	var b []byte
-	for child := ast.GetFirstChild(node); child != nil; child = ast.GetNextNode(child) {
-		if leaf, ok := child.(*ast.Leaf); ok && len(leaf.Literal) > 0 {
-			b = append(b, leaf.Literal...)
-		} else if text, ok := child.(*ast.Text); ok {
-			lit := text.Literal
-			if lit == nil {
-				lit = text.Content
-			}
-			if len(lit) > 0 {
-				b = append(b, lit...)
-			}
+	for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+		if lit := nodeLiteral(child, source); len(lit) > 0 {
+			b = append(b, lit...)
 		} else {
-			b = append(b, getCellText(child)...)
+			b = append(b, getCellText(child, source)...)
 		}
 	}
 	return string(b)
 }
 
 // writeInlineContent outputs inline content (text, strong, emph, code) with correct font changes.
-func writeInlineContent(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node) {
+func writeInlineContent(pdf *gofpdf.Fpdf, tr func(string) string, node coreast.Node, source []byte) {
 	lineHt := pdfLineHeight
 	left, _, right, _ := pdf.GetMargins()
 	pageW := 210.0 // A4 mm
 	maxW := pageW - left - right
 
-	for child := ast.GetFirstChild(node); child != nil; child = ast.GetNextNode(child) {
-		writeInline(pdf, tr, child, lineHt, maxW)
+	for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+		writeInline(pdf, tr, child, lineHt, maxW, source)
 	}
 }
 
-func writeInline(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node, lineHt, maxW float64) {
+func writeInline(pdf *gofpdf.Fpdf, tr func(string) string, node coreast.Node, lineHt, maxW float64, source []byte) {
 	switch n := node.(type) {
-	case *ast.Text:
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
+	case *coreast.Text:
+		lit := n.Segment.Value(source)
 		if len(lit) > 0 {
 			cellWrap(pdf, tr(string(lit)), lineHt, maxW)
 		}
-	case *ast.Strong:
-		pdf.SetFont("Arial", "B", 12)
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
+	case *coreast.Emphasis:
+		if n.Level >= 2 {
+			pdf.SetFont("Arial", "B", 12)
+		} else {
+			pdf.SetFont("Arial", "I", 12)
+		}
+		for c := n.FirstChild(); c != nil; c = c.NextSibling() {
+			writeInline(pdf, tr, c, lineHt, maxW, source)
 		}
 		pdf.SetFont("Arial", "", 12)
-	case *ast.Emph:
-		pdf.SetFont("Arial", "I", 12)
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
-		}
-		pdf.SetFont("Arial", "", 12)
-	case *ast.Code:
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
+	case *coreast.CodeSpan:
+		lit := nodeLiteral(n, source)
 		if len(lit) > 0 {
 			pdf.SetFont("Courier", "", 11)
 			cellWrap(pdf, tr(string(lit)), lineHt, maxW)
 			pdf.SetFont("Arial", "", 12)
 		}
-	case *ast.Link:
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
+	case *coreast.Link:
+		for c := n.FirstChild(); c != nil; c = c.NextSibling() {
+			writeInline(pdf, tr, c, lineHt, maxW, source)
 		}
 		if len(n.Destination) > 0 {
 			pdf.SetFont("Arial", "I", 10)
 			cellWrap(pdf, tr(" ("+string(n.Destination)+")"), lineHt, maxW)
 			pdf.SetFont("Arial", "", 12)
 		}
-	case *ast.Image:
-		alt := getInlineText(n)
+	case *coreast.Image:
+		alt := getInlineText(n, source)
 		if alt != "" {
 			cellWrap(pdf, tr(alt), lineHt, maxW)
 		}
@@ -338,40 +286,27 @@ func writeInline(pdf *gofpdf.Fpdf, tr func(string) string, node ast.Node, lineHt
 			cellWrap(pdf, tr(" [Image: "+string(n.Destination)+"]"), lineHt, maxW)
 			pdf.SetFont("Arial", "", 12)
 		}
-	case *ast.Del:
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
-		}
-	case *ast.Subscript:
-		pdf.SetFont("Arial", "", 9)
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
-		}
-		pdf.SetFont("Arial", "", 12)
-	case *ast.Superscript:
-		pdf.SetFont("Arial", "", 9)
-		for c := ast.GetFirstChild(n); c != nil; c = ast.GetNextNode(c) {
-			writeInline(pdf, tr, c, lineHt, maxW)
-		}
-		pdf.SetFont("Arial", "", 12)
-	case *ast.Math:
-		lit := n.Literal
-		if lit == nil {
-			lit = n.Content
-		}
-		if len(lit) > 0 {
-			pdf.SetFont("Courier", "", 10)
-			cellWrap(pdf, tr(string(lit)), lineHt, maxW)
-			pdf.SetFont("Arial", "", 12)
-		}
-	case *ast.Hardbreak:
-		pdf.Ln(lineHt)
-	case *ast.Softbreak:
-		pdf.Ln(lineHt)
 	default:
-		if leaf, ok := node.(*ast.Leaf); ok && len(leaf.Literal) > 0 {
-			cellWrap(pdf, tr(string(leaf.Literal)), lineHt, maxW)
+		if lit := nodeLiteral(node, source); len(lit) > 0 {
+			cellWrap(pdf, tr(string(lit)), lineHt, maxW)
+		} else if node.FirstChild() != nil {
+			for c := node.FirstChild(); c != nil; c = c.NextSibling() {
+				writeInline(pdf, tr, c, lineHt, maxW, source)
+			}
 		}
+	}
+}
+
+func nodeLiteral(node coreast.Node, source []byte) []byte {
+	switch n := node.(type) {
+	case *coreast.Text:
+		return n.Segment.Value(source)
+	case interface{ Text([]byte) []byte }:
+		return n.Text(source)
+	case interface{ Value([]byte) []byte }:
+		return n.Value(source)
+	default:
+		return nil
 	}
 }
 

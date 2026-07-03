@@ -8,13 +8,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/parser"
 	"github.com/jung-kurt/gofpdf"
 	"github.com/mudler/LocalAGI/core/types"
 	"github.com/mudler/LocalAGI/pkg/config"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai/jsonschema"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/text"
 )
 
 const (
@@ -96,10 +97,11 @@ func (a *GenPDFAction) Run(ctx context.Context, sharedState *types.AgentSharedSt
 
 	// Add content: parse as markdown and render, or fall back to plain text
 	pdf.SetFont("Arial", "", 12)
-	p := parser.NewWithExtensions(parser.CommonExtensions)
-	doc := p.Parse([]byte(result.Content))
-	if doc != nil && ast.GetFirstChild(doc) != nil {
-		renderMarkdownToPDF(pdf, tr, doc)
+	md := goldmark.New(goldmark.WithExtensions(extension.GFM))
+	input := []byte(result.Content)
+	doc := md.Parser().Parse(text.NewReader(input))
+	if doc != nil && doc.FirstChild() != nil {
+		renderMarkdownToPDF(pdf, tr, doc, input)
 	} else {
 		pdf.MultiCell(0, 10, tr(result.Content), "", "", false)
 	}

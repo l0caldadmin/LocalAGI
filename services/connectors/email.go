@@ -15,15 +15,15 @@ import (
 	"github.com/emersion/go-imap/v2/imapclient"
 	"github.com/emersion/go-message"
 	"github.com/emersion/go-message/charset"
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
 
 	"github.com/mudler/LocalAGI/core/agent"
 	"github.com/mudler/LocalAGI/core/types"
 	"github.com/mudler/LocalAGI/pkg/config"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	gmhtml "github.com/yuin/goldmark/renderer/html"
 )
 
 type Email struct {
@@ -348,13 +348,14 @@ func imapWorker(done chan bool, e *Email, a *agent.Agent, c *imapclient.Client, 
 
 					// If the original email was sent in HTML, reply with HTML
 					if contentIsHTML {
-						p := parser.NewWithExtensions(parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock)
-						doc := p.Parse([]byte(replyContent))
-
-						opts := html.RendererOptions{Flags: html.CommonFlags | html.HrefTargetBlank | html.CompletePage}
-						renderer := html.NewRenderer(opts)
-
-						replyContent = string(markdown.Render(doc, renderer))
+						md := goldmark.New(
+							goldmark.WithExtensions(extension.GFM),
+							goldmark.WithRendererOptions(gmhtml.WithUnsafe()),
+						)
+						var rendered bytes.Buffer
+						if err := md.Convert([]byte(replyContent), &rendered); err == nil {
+							replyContent = rendered.String()
+						}
 					}
 
 					// Send the email
