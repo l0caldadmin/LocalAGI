@@ -52,10 +52,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     tzdata \
-    docker.io \
     bash \
     wget \
     curl
+
+COPY --from=docker:cli /usr/local/bin/docker /usr/local/bin/docker
 
 # Copy the webui binary from the builder stage to the final image
 COPY --from=builder /work/localagi /localagi
