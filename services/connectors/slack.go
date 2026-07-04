@@ -248,7 +248,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 			if filename == "" || filename == "." {
 				filename = "audio"
 			}
-			_, err = api.UploadFileV2(slack.UploadFileV2Parameters{
+			_, err = api.UploadFile(slack.UploadFileParameters{
 				Reader:          bytes.NewReader(data),
 				FileSize:        len(data),
 				ThreadTimestamp: threadTs,
@@ -258,7 +258,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 				InitialComment:  "Generated song",
 			})
 			if err != nil {
-				xlog.Error("Slack UploadFileV2 failed for song", "error", err, "path", path)
+				xlog.Error("Slack UploadFile failed for song", "error", err, "path", path)
 			}
 		}
 	}
@@ -279,7 +279,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 				filename = "document.pdf"
 			}
 			xlog.Debug("Uploading PDF from metadata to Slack thread", "filename", filename, "path", path)
-			_, err = api.UploadFileV2(slack.UploadFileV2Parameters{
+			_, err = api.UploadFile(slack.UploadFileParameters{
 				Reader:          bytes.NewReader(data),
 				FileSize:        len(data),
 				ThreadTimestamp: threadTs,
@@ -289,7 +289,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 				InitialComment:  "Generated PDF document",
 			})
 			if err != nil {
-				xlog.Error("Slack UploadFileV2 failed for PDF", "error", err, "path", path)
+				xlog.Error("Slack UploadFile failed for PDF", "error", err, "path", path)
 			}
 		}
 	}
@@ -312,7 +312,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 				xlog.Error("Empty image body for Slack upload", "url", imgURL)
 				continue
 			}
-			_, err = api.UploadFileV2(slack.UploadFileV2Parameters{
+			_, err = api.UploadFile(slack.UploadFileParameters{
 				Reader:          bytes.NewReader(data),
 				FileSize:        len(data),
 				ThreadTimestamp: threadTs,
@@ -322,7 +322,7 @@ func uploadFilesFromMetadata(metadata map[string]interface{}, api *slack.Client,
 				InitialComment:  "Generated image",
 			})
 			if err != nil {
-				xlog.Error("Slack UploadFileV2 failed for image", "error", err, "url", imgURL)
+				xlog.Error("Slack UploadFile failed for image", "error", err, "url", imgURL)
 			}
 		}
 	}
