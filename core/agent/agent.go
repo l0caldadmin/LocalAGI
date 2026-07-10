@@ -19,10 +19,10 @@ import (
 
 	"github.com/mudler/xlog"
 
-	"github.com/mudler/LocalAGI/core/action"
-	"github.com/mudler/LocalAGI/core/scheduler"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/llm"
+	"github.com/l0caldadmin/LocalAGI/core/action"
+	"github.com/l0caldadmin/LocalAGI/core/scheduler"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/llm"
 	"github.com/sashabaranov/go-openai"
 )
 

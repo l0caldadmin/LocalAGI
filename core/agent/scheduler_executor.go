@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mudler/LocalAGI/core/scheduler"
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/scheduler"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 )
 
 // agentSchedulerExecutor implements scheduler.AgentExecutor for executing scheduled tasks through the agent

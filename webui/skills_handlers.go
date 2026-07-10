@@ -11,7 +11,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/mudler/LocalAGI/services/skills"
+	"github.com/l0caldadmin/LocalAGI/services/skills"
 	"github.com/mudler/xlog"
 	skilldomain "github.com/mudler/skillserver/pkg/domain"
 	skillgit "github.com/mudler/skillserver/pkg/git"

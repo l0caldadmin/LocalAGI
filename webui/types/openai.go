@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	coreTypes "github.com/mudler/LocalAGI/core/types"
+	coreTypes "github.com/l0caldadmin/LocalAGI/core/types"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai"
 	"github.com/sashabaranov/go-openai/jsonschema"

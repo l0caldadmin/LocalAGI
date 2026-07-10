@@ -5,8 +5,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/mudler/LocalAGI/core/sse"
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/sse"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 	"github.com/mudler/xlog"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 )
 
 const (

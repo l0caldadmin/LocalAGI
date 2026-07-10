@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
 	"github.com/sashabaranov/go-openai/jsonschema"
 	"github.com/tmc/langchaingo/tools/duckduckgo"
 	"mvdan.cc/xurls/v2"

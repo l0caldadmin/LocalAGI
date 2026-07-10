@@ -1,7 +1,7 @@
 package webui
 
 import (
-	"github.com/mudler/LocalAGI/webui/collections"
+	"github.com/l0caldadmin/LocalAGI/webui/collections"
 )
 
 // NewInProcessCollectionsBackend delegates to the collections sub-package.

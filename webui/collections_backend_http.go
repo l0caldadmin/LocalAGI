@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/mudler/LocalAGI/pkg/localrag"
+	"github.com/l0caldadmin/LocalAGI/pkg/localrag"
 )
 
 // collectionsBackendHTTP implements CollectionsBackend using the LocalRAG HTTP API.

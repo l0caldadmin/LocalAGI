@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mudler/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
 	"github.com/mudler/xlog"
 )
 

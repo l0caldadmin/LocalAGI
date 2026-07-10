@@ -12,19 +12,19 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mudler/LocalAGI/core/conversations"
-	coreTypes "github.com/mudler/LocalAGI/core/types"
-	internalTypes "github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/llm"
-	"github.com/mudler/LocalAGI/services"
-	"github.com/mudler/LocalAGI/webui/types"
+	"github.com/l0caldadmin/LocalAGI/core/conversations"
+	coreTypes "github.com/l0caldadmin/LocalAGI/core/types"
+	internalTypes "github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/llm"
+	"github.com/l0caldadmin/LocalAGI/services"
+	"github.com/l0caldadmin/LocalAGI/webui/types"
 	"github.com/mudler/xlog"
 
 	"github.com/sashabaranov/go-openai"
 	"github.com/sashabaranov/go-openai/jsonschema"
 
-	"github.com/mudler/LocalAGI/core/sse"
-	"github.com/mudler/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/core/sse"
+	"github.com/l0caldadmin/LocalAGI/core/state"
 
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"

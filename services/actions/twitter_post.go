@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
-	"github.com/mudler/LocalAGI/services/connectors/twitter"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/services/connectors/twitter"
 	"github.com/sashabaranov/go-openai/jsonschema"
 )
 

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"regexp"
 
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
 )
 
 const FilterRegex = "regex"

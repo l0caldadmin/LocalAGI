@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 	"github.com/sashabaranov/go-openai/jsonschema"
 	"github.com/tmc/langchaingo/tools/wikipedia"
 )

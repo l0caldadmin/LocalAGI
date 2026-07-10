@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mudler/LocalAGI/core/conversations"
-	"github.com/mudler/LocalAGI/core/scheduler"
+	"github.com/l0caldadmin/LocalAGI/core/conversations"
+	"github.com/l0caldadmin/LocalAGI/core/scheduler"
 )
 
 // Forward declaration to avoid circular import

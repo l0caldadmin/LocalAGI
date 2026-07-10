@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mudler/LocalAGI/core/action"
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/action"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 	"golang.org/x/exp/slices"
 
 	"github.com/mudler/xlog"

@@ -1,9 +1,9 @@
 package webui
 
 import (
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/webui/collections"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/webui/collections"
 )
 
 // CollectionsRAGProviderFromState delegates to the collections sub-package.

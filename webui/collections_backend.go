@@ -1,7 +1,7 @@
 package webui
 
 import (
-	"github.com/mudler/LocalAGI/webui/collections"
+	"github.com/l0caldadmin/LocalAGI/webui/collections"
 )
 
 // Re-export types from the collections sub-package so existing webui code continues to work.

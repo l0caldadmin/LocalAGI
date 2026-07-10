@@ -7,8 +7,8 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 
 	skilldomain "github.com/mudler/skillserver/pkg/domain"
 )

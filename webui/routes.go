@@ -12,13 +12,13 @@ import (
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/keyauth"
-	"github.com/mudler/LocalAGI/core/conversations"
-	"github.com/mudler/LocalAGI/core/sse"
+	"github.com/l0caldadmin/LocalAGI/core/conversations"
+	"github.com/l0caldadmin/LocalAGI/core/sse"
 
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/localrag"
-	"github.com/mudler/LocalAGI/services"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/localrag"
+	"github.com/l0caldadmin/LocalAGI/services"
 	"github.com/mudler/xlog"
 )
 

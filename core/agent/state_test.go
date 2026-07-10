@@ -3,7 +3,7 @@ package agent_test
 import (
 	"net/http"
 
-	. "github.com/mudler/LocalAGI/core/agent"
+	. "github.com/l0caldadmin/LocalAGI/core/agent"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

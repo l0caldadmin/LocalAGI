@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/mudler/LocalAGI/core/scheduler"
+	"github.com/l0caldadmin/LocalAGI/core/scheduler"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

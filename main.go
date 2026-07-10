@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mudler/LocalAGI/cmd"
+	"github.com/l0caldadmin/LocalAGI/cmd"
 )
 
 func main() {

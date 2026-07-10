@@ -6,10 +6,10 @@
 
 <div align="center">
   
-[![Go Report Card](https://goreportcard.com/badge/github.com/mudler/LocalAGI)](https://goreportcard.com/report/github.com/mudler/LocalAGI)
+[![Go Report Card](https://goreportcard.com/badge/github.com/l0caldadmin/LocalAGI)](https://goreportcard.com/report/github.com/l0caldadmin/LocalAGI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/mudler/LocalAGI)](https://github.com/mudler/LocalAGI/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/mudler/LocalAGI)](https://github.com/mudler/LocalAGI/issues)
+[![GitHub stars](https://img.shields.io/github/stars/mudler/LocalAGI)](https://github.com/l0caldadmin/LocalAGI/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/mudler/LocalAGI)](https://github.com/l0caldadmin/LocalAGI/issues)
 
 
 Try on [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LocalAGI_bot)
@@ -47,7 +47,7 @@ LocalAGI ensures your data stays exactly where you want it—on your hardware. N
 
 ```bash
 # Clone the repository
-git clone https://github.com/mudler/LocalAGI
+git clone https://github.com/l0caldadmin/LocalAGI
 cd LocalAGI
 
 # CPU setup (default)
@@ -253,7 +253,7 @@ Skills are stored in a fixed `skills` subdirectory under `LOCALAGI_STATE_DIR` (e
 
 ### Pre-Built Binaries
 
-Download ready-to-run binaries from the [Releases](https://github.com/mudler/LocalAGI/releases) page.
+Download ready-to-run binaries from the [Releases](https://github.com/l0caldadmin/LocalAGI/releases) page.
 
 ### Source Build
 
@@ -264,7 +264,7 @@ Requirements:
 
 ```bash
 # Clone repo
-git clone https://github.com/mudler/LocalAGI.git
+git clone https://github.com/l0caldadmin/LocalAGI.git
 cd LocalAGI
 
 # Build it
@@ -285,8 +285,8 @@ LocalAGI can be used as a Go library to programmatically create and manage AI ag
 
 ```go
 import (
-    "github.com/mudler/LocalAGI/core/agent"
-    "github.com/mudler/LocalAGI/core/types"
+    "github.com/l0caldadmin/LocalAGI/core/agent"
+    "github.com/l0caldadmin/LocalAGI/core/types"
 )
 
 // Create a new agent with basic configuration
@@ -338,8 +338,8 @@ For managing multiple agents, you can use the AgentPool system:
 
 ```go
 import (
-    "github.com/mudler/LocalAGI/core/state"
-    "github.com/mudler/LocalAGI/core/types"
+    "github.com/l0caldadmin/LocalAGI/core/state"
+    "github.com/l0caldadmin/LocalAGI/core/types"
 )
 
 // Create a new agent pool (call pool.SetRAGProvider(...) for knowledge base; see main.go)
@@ -718,7 +718,7 @@ The development workflow is similar to the source build, but with additional ste
 
 ```bash
 # Clone repo
-git clone https://github.com/mudler/LocalAGI.git
+git clone https://github.com/l0caldadmin/LocalAGI.git
 cd LocalAGI
 
 cd webui/react-ui

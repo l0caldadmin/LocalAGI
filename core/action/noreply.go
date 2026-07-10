@@ -3,7 +3,7 @@ package action
 import (
 	"context"
 
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 )
 
 // StopActionName is the name of the action

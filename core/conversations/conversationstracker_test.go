@@ -3,7 +3,7 @@ package conversations_test
 import (
 	"time"
 
-	"github.com/mudler/LocalAGI/core/conversations"
+	"github.com/l0caldadmin/LocalAGI/core/conversations"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/sashabaranov/go-openai"

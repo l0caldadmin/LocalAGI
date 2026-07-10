@@ -6,8 +6,8 @@ import (
 	"sync"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/state"
 	"github.com/mudler/xlog"
 
 	skilldomain "github.com/mudler/skillserver/pkg/domain"

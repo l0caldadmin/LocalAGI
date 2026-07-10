@@ -82,7 +82,7 @@ services:
       dockerfile: Dockerfile.webui
     ports:
       - 8080:3000
-    #image: quay.io/mudler/localagi:master
+    #image: localdadm1n/localai:localagi-latest
     environment:
       - LOCALAGI_MODEL=${MODEL_NAME:-gemma-3-4b-it-qat}
       - LOCALAGI_MULTIMODAL_MODEL=${MULTIMODAL_MODEL:-moondream2-20250414}

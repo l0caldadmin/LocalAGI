@@ -5,11 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/services"
-	"github.com/mudler/LocalAGI/services/skills"
-	"github.com/mudler/LocalAGI/webui"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/services"
+	"github.com/l0caldadmin/LocalAGI/services/skills"
+	"github.com/l0caldadmin/LocalAGI/webui"
 	"github.com/spf13/cobra"
 )
 

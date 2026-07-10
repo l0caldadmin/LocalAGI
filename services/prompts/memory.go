@@ -3,9 +3,9 @@ package prompts
 import (
 	"context"
 
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
 )
 
 type MemoryLayer interface {

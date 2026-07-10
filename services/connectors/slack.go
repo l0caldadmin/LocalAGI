@@ -12,15 +12,15 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mudler/LocalAGI/pkg/config"
-	"github.com/mudler/LocalAGI/pkg/xstrings"
-	"github.com/mudler/LocalAGI/services/actions"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/pkg/xstrings"
+	"github.com/l0caldadmin/LocalAGI/services/actions"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai"
 
-	"github.com/mudler/LocalAGI/core/agent"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/services/connectors/common"
+	"github.com/l0caldadmin/LocalAGI/core/agent"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/services/connectors/common"
 
 	"github.com/slack-go/slack/socketmode"
 

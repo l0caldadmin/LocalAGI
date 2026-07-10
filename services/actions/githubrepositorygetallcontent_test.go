@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mudler/LocalAGI/services/actions"
+	"github.com/l0caldadmin/LocalAGI/services/actions"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

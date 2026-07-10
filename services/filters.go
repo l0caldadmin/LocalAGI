@@ -1,10 +1,10 @@
 package services
 
 import (
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
-	"github.com/mudler/LocalAGI/services/filters"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/services/filters"
 	"github.com/mudler/xlog"
 )
 

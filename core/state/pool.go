@@ -11,11 +11,11 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/mudler/LocalAGI/core/agent"
-	sseLib "github.com/mudler/LocalAGI/core/sse"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/localrag"
-	"github.com/mudler/LocalAGI/pkg/utils"
+	. "github.com/l0caldadmin/LocalAGI/core/agent"
+	sseLib "github.com/l0caldadmin/LocalAGI/core/sse"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/localrag"
+	"github.com/l0caldadmin/LocalAGI/pkg/utils"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/mudler/cogito"

@@ -1,7 +1,7 @@
 package xstrings_test
 
 import (
-	xtrings "github.com/mudler/LocalAGI/pkg/xstrings"
+	xtrings "github.com/l0caldadmin/LocalAGI/pkg/xstrings"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

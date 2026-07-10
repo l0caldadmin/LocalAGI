@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/jung-kurt/gofpdf"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/pkg/config"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/pkg/config"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai/jsonschema"
 	"github.com/yuin/goldmark"

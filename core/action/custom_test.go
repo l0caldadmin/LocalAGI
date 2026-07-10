@@ -3,8 +3,8 @@ package action_test
 import (
 	"context"
 
-	. "github.com/mudler/LocalAGI/core/action"
-	"github.com/mudler/LocalAGI/core/types"
+	. "github.com/l0caldadmin/LocalAGI/core/action"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 

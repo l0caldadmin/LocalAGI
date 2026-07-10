@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mudler/LocalAGI/pkg/llm"
-	"github.com/mudler/LocalAGI/pkg/localrag"
+	"github.com/l0caldadmin/LocalAGI/pkg/llm"
+	"github.com/l0caldadmin/LocalAGI/pkg/localrag"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai"
 )

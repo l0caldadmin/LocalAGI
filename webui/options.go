@@ -3,8 +3,8 @@ package webui
 import (
 	"time"
 
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/services/skills"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/services/skills"
 )
 
 type Config struct {

@@ -11,7 +11,7 @@ import (
 	"net/http"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
-	"github.com/mudler/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/core/types"
 	"github.com/mudler/xlog"
 
 	"github.com/sashabaranov/go-openai/jsonschema"

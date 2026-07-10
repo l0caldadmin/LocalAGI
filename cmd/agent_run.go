@@ -9,10 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/LocalAGI/core/types"
-	"github.com/mudler/LocalAGI/services"
-	"github.com/mudler/LocalAGI/services/skills"
+	"github.com/l0caldadmin/LocalAGI/core/state"
+	"github.com/l0caldadmin/LocalAGI/core/types"
+	"github.com/l0caldadmin/LocalAGI/services"
+	"github.com/l0caldadmin/LocalAGI/services/skills"
 	"github.com/spf13/cobra"
 )
 
