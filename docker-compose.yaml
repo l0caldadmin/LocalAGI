@@ -5,7 +5,7 @@ services:
     # Available images with CUDA, ROCm, SYCL, Vulkan
     # Image list (quay.io): https://quay.io/repository/go-skynet/local-ai?tab=tags
     # Image list (dockerhub): https://hub.docker.com/r/localai/localai
-    image: localai/localai:master
+    image: localdadm1n/localai:latest
     command: 
     - ${MODEL_NAME:-gemma-3-4b-it-qat}
     - ${MULTIMODAL_MODEL:-gemma-3-4b-it-qat}
@@ -26,7 +26,7 @@ services:
       - images:/tmp/generated/images
 
   postgres:
-    image: quay.io/mudler/localrecall:${LOCALRECALL_VERSION:-v0.5.2}-postgresql
+    image: localdadm1n/localai:localrecall-pg18
     environment:
       - POSTGRES_DB=localrecall
       - POSTGRES_USER=localrecall

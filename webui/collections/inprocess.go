@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/mudler/localrecall/rag"
-	"github.com/mudler/localrecall/rag/sources"
+	"github.com/l0caldadmin/localrecall/rag"
+	"github.com/l0caldadmin/localrecall/rag/sources"
 	"github.com/mudler/xlog"
 	"github.com/sashabaranov/go-openai"
 )

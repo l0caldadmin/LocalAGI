@@ -17,7 +17,7 @@ var _ = Describe("Agent test", func() {
 				// test apiURL is working and available
 				_, err := http.Get(apiURL + "/readyz")
 				return err
-			}, "10m", "10s").ShouldNot(HaveOccurred())
+			}, "2m", "10s").ShouldNot(HaveOccurred())
 		})
 
 		It("generates all the fields with random data", func() {

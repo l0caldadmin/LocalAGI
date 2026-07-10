@@ -15,3 +15,12 @@ func TestE2E(t *testing.T) {
 
 var apiURL = os.Getenv("LOCALAI_API_URL")
 var localagiURL = os.Getenv("LOCALAGI_API_URL")
+
+func init() {
+	if apiURL == "" {
+		apiURL = "http://localhost:8081"
+	}
+	if localagiURL == "" {
+		localagiURL = "http://localhost:8080"
+	}
+}

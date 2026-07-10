@@ -3,7 +3,7 @@ package collections
 import (
 	"sync"
 
-	"github.com/mudler/localrecall/rag"
+	"github.com/l0caldadmin/localrecall/rag"
 )
 
 // CollectionList maps collection names to their persistent knowledge bases.

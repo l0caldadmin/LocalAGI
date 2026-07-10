@@ -22,7 +22,7 @@ var _ = Describe("E2E test", func() {
 				// test apiURL is working and available
 				_, err := http.Get(localagiURL + "/readyz")
 				return err
-			}, "10m", "10s").ShouldNot(HaveOccurred())
+			}, "2m", "10s").ShouldNot(HaveOccurred())
 
 			client := localagi.NewClient(localagiURL, "", 5*time.Minute)
 			err := client.DeleteAgent("testagent1")
@@ -50,7 +50,7 @@ var _ = Describe("E2E test", func() {
 				// test apiURL is working and available
 				_, err := http.Get(localagiURL + "/readyz")
 				return err
-			}, "10m", "10s").ShouldNot(HaveOccurred())
+			}, "2m", "10s").ShouldNot(HaveOccurred())
 
 			client := localagi.NewClient(localagiURL, "", time.Minute)
 			err := client.DeleteAgent("testagent2")

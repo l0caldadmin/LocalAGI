@@ -13,7 +13,7 @@ import (
 
 	"github.com/mudler/LocalAGI/core/agent"
 	"github.com/mudler/LocalAGI/core/state"
-	"github.com/mudler/localrecall/rag"
+	"github.com/l0caldadmin/localrecall/rag"
 	"github.com/mudler/xlog"
 )
 
